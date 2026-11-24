@@ -1,0 +1,11 @@
+import React, {useState} from 'react';
+import {createRoot} from 'react-dom/client';
+import {Player} from '@remotion/player';
+import {Film, Cover, Part, Platform} from '../src/video';
+import './style.css';
+function App() {
+ const [part,setPart]=useState<Part>(1); const [platform,setPlatform]=useState<Platform>('youtube'); const [cover,setCover]=useState(false);
+ return <main><header><span className="brand">✦ EVERTALE</span><span className="badge">ভিডিও প্রিভিউ</span></header><div className="layout"><section><p className="eyebrow">একটি গল্প · তিনটি পর্ব</p><h1>সংসার ভাঙলো বাপ,<br/><em>দোষ পাইলো মা</em></h1><p className="intro">প্রতিটি পর্বের ভিডিও ও কভার এখানে দেখে মতামত জানাও। এটি চূড়ান্ত রেন্ডার নয়।</p><div className="controls"><label>পর্ব</label><div className="buttons">{([1,2,3] as Part[]).map(p=><button key={p} className={part===p?'active':''} onClick={()=>setPart(p)}>{p===3?'শেষ পর্ব':`পর্ব ${p===1?'১':'২'}`}</button>)}</div><label>প্ল্যাটফর্ম</label><div className="buttons">{(['youtube','facebook'] as Platform[]).map(p=><button key={p} className={platform===p?'active':''} onClick={()=>setPlatform(p)}>{p==='youtube'?'YouTube Shorts':'Facebook Reels'}</button>)}</div><label>দেখতে চাই</label><div className="buttons"><button className={!cover?'active':''} onClick={()=>setCover(false)}>ভিডিও</button><button className={cover?'active':''} onClick={()=>setCover(true)}>কভার</button></div></div><p className="note">ভিডিও চালাতে প্লে বাটনে চাপ দাও এবং প্রয়োজনে শব্দ চালু করো। দৃশ্যের সময় এখনো আনুমানিক; SRT ও মিউজিক যোগ করা হয়নি।</p></section><section className="player-col"><div className="player-shell">{cover?<Player key={`cover-${part}-${platform}`} component={Cover} inputProps={{part,platform}} durationInFrames={1} compositionWidth={1080} compositionHeight={1920} fps={30} style={{width:'100%'}}/>:<Player key={`${part}-${platform}`} component={Film} inputProps={{part,platform}} durationInFrames={[883,558,796][part-1]} compositionWidth={1080} compositionHeight={1920} fps={30} controls style={{width:'100%'}}/>}</div><p className="player-label">{platform==='youtube'?'YouTube Shorts':'Facebook Reels'} · {part===3?'শেষ পর্ব':`পর্ব ${part===1?'১':'২'}`} · {cover?'কভার':'ভিডিও'}</p></section></div></main>
+}
+
+createRoot(document.getElementById('root')!).render(<App/>);

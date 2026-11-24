@@ -1,0 +1,7 @@
+node_modules/
+out/
+.cache/
+
+# Download bundle and duplicate source audio; canonical audio is in public/audio.
+EverTale-project.zip
+/audio/
